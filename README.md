@@ -72,7 +72,7 @@ Traffic density is calculated based on total detected vehicles:
 PURWA_YOLO/
 │
 ├── models/
-│   └── best_vehicle.pt
+│   └── best.pt
 │
 ├── src/
 │   └── purwa_yolo/
