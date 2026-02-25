@@ -17,7 +17,7 @@ import plotly.express as px
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 MODELS_DIR = PROJECT_ROOT / "models"
-MODEL_PATH = MODELS_DIR / "best_vehicle.pt"
+MODEL_PATH = MODELS_DIR / "best.pt"
 
 VEHICLE_CLASSES = ["bus", "car", "van"]
 
@@ -189,7 +189,7 @@ def load_model():
     if not MODEL_PATH.exists():
         raise FileNotFoundError(
             f"Model tidak ditemukan: {MODEL_PATH}\n"
-            "Pastikan ada file: models/best_vehicle.pt"
+            "Pastikan ada file: models/best.pt"
         )
     return YOLO(str(MODEL_PATH))
 
@@ -248,7 +248,7 @@ with st.sidebar:
 
     st.divider()
     st.markdown("## 📋 Info Model")
-    st.code("best_vehicle.pt\nYOLO12 — bus · car · van", language="text")
+    st.code("best.pt\nYOLO12 — bus · car · van", language="text")
 
     st.divider()
     st.markdown("## 📜 Riwayat Sesi")
