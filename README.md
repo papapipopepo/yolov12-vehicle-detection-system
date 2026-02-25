@@ -1,187 +1,239 @@
-# 🎯 Purwa YOLO - Object Detection App
+🚗 Vehicle Detection  YOLOv12
+---
 
-Aplikasi Object Detection berbasis YOLOv12 dengan Streamlit untuk deteksi Construction Equipment, Vehicle, dan Fruit.
+> Smart Traffic Vehicle Detection & Density Analysis\
+> Powered by YOLOv12 + Streamlit + Supervision
 
-![Python](https://img.shields.io/badge/python-3.11-blue.svg)
-![Poetry](https://img.shields.io/badge/poetry-dependency%20management-blue)
-![Streamlit](https://img.shields.io/badge/streamlit-app-red)
-![YOLO](https://img.shields.io/badge/YOLOv12-ultralytics-green)
+* * * * *
 
-## 📁 Project Structure
+📌 Overview
+-----------
 
+This project implements a **vehicle detection and traffic density analysis system** using **YOLOv12**.\
+The application is built with **Streamlit** and supports:
+
+-   🚗 Vehicle detection (Bus, Car, Van)
+
+-   📊 Automatic vehicle counting
+
+-   📈 Traffic density classification (LOW / MEDIUM / HIGH)
+
+-   🖼️ Single image detection
+
+-   🎬 Video detection
+
+-   📦 Batch image processing
+
+-   📜 Detection history tracking
+
+-   📊 Interactive visual analytics (Plotly)
+
+* * * * *
+
+🧠 Model Information
+--------------------
+
+-   Architecture: **YOLOv12**
+
+-   Classes:
+
+    -   Bus
+
+    -   Car
+
+    -   Van
+
+-   Input size (inference): `1024`
+
+-   Evaluation Performance:
+
+    -   mAP@50: **~0.88**
+
+    -   mAP@50--95: **~0.69**
+
+* * * * *
+
+🚦 Traffic Density Logic
+------------------------
+
+Traffic density is calculated based on total detected vehicles:
+
+| Total Vehicles | Density |
+| --- | --- |
+| ≤ 3 | LOW 🟢 |
+| 4 -- 7 | MEDIUM 🟡 |
+| > 7 | HIGH 🔴 |
+
+* * * * *
+
+🏗️ Project Structure
+---------------------
 ```
-purwa_yolo/
-├── models/                          # Folder untuk model .pt (gitignored)
-│   ├── best_construction.pt
-│   ├── best_vehicle.pt
-│   └── best_fruit.pt
-├── src/purwa_yolo/                  # Source code aplikasi
-│   ├── __init__.py
-│   └── main.py                      # Streamlit app
-├── training_code/                   # Jupyter notebooks untuk training
-│   ├── Train YOLOv12 Construction.ipynb
-│   └── Train YOLOv12 Vehicle.ipynb
+PURWA_YOLO/
+│
+├── models/
+│   └── best_vehicle.pt
+│
+├── src/
+│   └── purwa_yolo/
+│       ├── __init__.py
+│       └── main.py
+│
+├── training_code/
+│   └── Train_YOLOv12_Vehicle.ipynb
+│
 ├── tests/
-├── pyproject.toml                   # Poetry dependencies
+│
+├── dockerfile
+├── docker-compose.yml
+├── pyproject.toml
+├── poetry.lock
 └── README.md
 ```
+* * * * *
 
-## 🎓 Training Model di Google Colab
+⚙️ Installation
+---------------
 
-### Step 1: Upload Notebook ke Google Colab
-
-1. Buka [Google Colab](https://colab.research.google.com/)
-2. Klik **File** → **Upload notebook**
-3. Upload salah satu notebook dari folder `training_code/`:
-   - `Train YOLOv12 Construction.ipynb`
-   - `Train YOLOv12 Vehicle.ipynb`
-
-### Step 2: Setup GPU di Colab
-
-1. Klik **Runtime** → **Change runtime type**
-2. Pilih **Hardware accelerator**: **T4 GPU** atau **A100 GPU** (jika available)
-3. Klik **Save**
-
-### Step 3: Jalankan Training
-
-Jalankan semua cell secara berurutan:
-
-```bash
-# Cell 1: Install dependencies
-!pip install ultralytics roboflow
-
-# Cell 2: Import libraries
-from ultralytics import YOLO
-from roboflow import Roboflow
-
-# Cell 3: Download dataset dari Roboflow
-# (Kode akan ada di notebook)
-
-# Cell 4: Training
-model = YOLO('yolov8n.pt')  # atau yolov12n.pt
-results = model.train(
-    data='path/to/data.yaml',
-    epochs=100,
-    imgsz=640,
-    batch=16,
-    name='my_model'
-)
-
-# Cell 5: Validasi
-model.val()
-
-# Cell 6: Test inference
-model.predict('test_image.jpg', save=True)
+### 1️⃣ Clone Repository
 ```
-
-### Step 4: Download Model
-
-Setelah training selesai:
-
-1. Model akan tersimpan di `/content/runs/detect/my_model/weights/best.pt`
-2. Download file dengan klik kanan → **Download**
-3. Rename sesuai kebutuhan:
-   - `best_construction.pt`
-   - `best_vehicle.pt`
-   - `best_fruit.pt`
-
-### Step 5: Pindahkan Model ke Project
-
-Setelah download, pindahkan file `.pt` ke folder `models/` di project:
-
-```bash
-# Di terminal local
-mv ~/Downloads/best.pt ./models/best_construction.pt
+git clone https://github.com/papapipopepo/yolov12-vehicle-detection-system.git
+cd yolov12-vehicle-detection-system
 ```
-
-## 🚀 Local Development Setup
-
-### Prerequisites
-
-- Python 3.11+
-- Poetry (untuk dependency management)
-- pyenv (recommended untuk version management)
-
-### Installation Steps
-
-#### 1. Clone Repository
-
-```bash
-git clone https://github.com/hermansh-id/purwa_yolo.git
-cd purwa_yolo
+### 2️⃣ Install Dependencies (Poetry)
 ```
-
-#### 2. Setup Python Version
-
-```bash
-# Install Python 3.11.9
-pyenv install 3.11.9
-
-# Set local Python version
-pyenv shell 3.11.9
-```
-
-#### 3. Install Dependencies dengan Poetry
-
-```bash
-# Install Poetry jika belum ada
-curl -sSL https://install.python-poetry.org | python3 -
-
-# Install project dependencies
 poetry install
-
-# Atau install manual dependencies
-poetry add numpy streamlit supervision ultralytics pillow
 ```
-
-#### 4. Tambahkan Model Files
-
-Pastikan file model `.pt` ada di folder `models/`:
-
-```bash
-ls models/
-# Output:
-# best_construction.pt
-# best_vehicle.pt
-# best_fruit.pt
+Or using pip:
 ```
+pip install streamlit ultralytics supervision opencv-python pillow plotly pandas
+```
+* * * * *
 
-> **Note**: File model tidak di-commit ke git karena ukurannya besar. 
-> Anda perlu training sendiri atau mendapatkan dari tim.
+▶️ Run the Application
+----------------------
 
-## 🎯 Cara Menggunakan App
-
-### Jalankan Aplikasi
-
-```bash
-# Menggunakan Poetry
+If using Poetry:
+```
 poetry run streamlit run src/purwa_yolo/main.py
-
-# Atau aktifkan virtual environment dulu
-poetry shell
+```
+Without Poetry:
+```
 streamlit run src/purwa_yolo/main.py
 ```
-
-### Akses Aplikasi
-
-Buka browser dan akses:
+App will run at:
 ```
-Local URL: http://localhost:8501
-Network URL: http://192.168.x.x:8501
+http://localhost:8501
 ```
+* * * * *
 
-### Langkah Penggunaan
+🖼️ Features
+------------
 
-1. **Pilih Model**: Pilih use case dari dropdown:
-   - Construction Equipment
-   - Vehicle
-   - Fruit
+### 1️⃣ Single Image Detection
 
-2. **Upload Image**: Klik "Browse files" dan pilih gambar
-   - Format: JPG, JPEG, PNG, WEBP
+-   Upload image
 
-3. **Detect Objects**: Klik tombol "🔍 Detect Objects"
+-   Adjust confidence & IoU
 
-4. **Lihat Hasil**:
-   - Gambar dengan bounding boxes
-   - Metrics jumlah objek per class
+-   Download annotated result
+
+-   Export CSV summary
+
+-   Visual bar chart distribution
+
+* * * * *
+
+### 2️⃣ Video Detection
+
+-   Frame-by-frame processing
+
+-   Adjustable frame skipping
+
+-   Real-time metrics
+
+-   Line chart for vehicle trends
+
+* * * * *
+
+### 3️⃣ Batch Processing
+
+-   Upload multiple images
+
+-   Automatic summary table
+
+-   Batch analytics chart
+
+-   CSV export
+
+* * * * *
+
+### 4️⃣ Session History
+
+-   Stores detection history
+
+-   Trend visualization
+
+-   Export history CSV
+
+* * * * *
+
+🎯 Technical Highlights
+-----------------------
+
+-   Uses `sv.Detections.from_ultralytics()` for conversion
+
+-   Applies Non-Maximum Suppression (NMS)
+
+-   Uses caching with `@st.cache_resource`
+
+-   Custom dark UI with advanced CSS styling
+
+-   Interactive visualization using Plotly
+
+* * * * *
+
+📊 Example Output
+-----------------
+
+-   Bounding boxes with confidence score
+
+-   Vehicle count per class
+
+-   Total vehicle count
+
+-   Density badge (LOW / MEDIUM / HIGH)
+
+-   Distribution bar chart
+
+-   Detection trend over time
+
+* * * * *
+
+🚀 Future Improvements
+----------------------
+
+-   🚦 Traffic jam length estimation
+
+-   🛣️ Lane-based vehicle counting
+
+-   📍 Object tracking (SORT / ByteTrack)
+
+-   📡 Real-time CCTV streaming
+
+-   🧠 Small object optimization with tiling inference
+
+* * * * *
+
+👤 Author
+---------
+
+**Ezra Satria Bagas Airlangga**  
+Master’s Student – Electrical Engineering, Telkom University  
+📧 ezra.satria16@gmail.com
+🔗[LinkedIn](https://linkedin.com/in/ezrasatriabagas/)
+
+#ComputerVision #DeepLearning #YOLOv12
+#VehicleDetection #TrafficAnalysis
+#StreamlitApp #PythonProject
+#CapstoneProject #Purwadhika
