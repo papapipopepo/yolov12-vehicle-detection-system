@@ -47,9 +47,9 @@ The application is built with **Streamlit** and supports:
 
 -   Evaluation Performance:
 
-    -   mAP@50: **~0.88**
+    -   mAP@50: **~0.902**
 
-    -   mAP@50--95: **~0.69**
+    -   mAP@50--95: **~0.714**
 
 * * * * *
 
