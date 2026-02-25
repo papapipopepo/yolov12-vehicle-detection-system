@@ -9,9 +9,14 @@ from collections import Counter
 from datetime import datetime
 import pandas as pd
 import tempfile
-import cv2
 import plotly.express as px
-
+try:
+    import cv2
+except Exception as e:
+    import streamlit as st
+    st.error("OpenCV (cv2) gagal di-load. Cek dependency opencv-python-headless + versi numpy.")
+    st.exception(e)
+    st.stop()
 
 # Path setup
 
