@@ -30,8 +30,8 @@ import requests
 
 
 MODEL_URL = os.getenv("MODEL_URL", "").strip()
-MODEL_GDRIVE_ID = os.getenv("MODEL_GDRIVE_ID", "").strip()
-
+# MODEL_GDRIVE_ID = os.getenv("MODEL_GDRIVE_ID", "").strip()
+MODEL_GDRIVE_ID = "1Hq-Vlz5R1jWTs6OH1wtHnc8TVkkykn-L"
 if not MODEL_GDRIVE_ID:
     # kalau user hanya isi URL, ambil file_id dari URL
     if not MODEL_URL:
