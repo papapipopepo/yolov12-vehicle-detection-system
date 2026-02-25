@@ -14,7 +14,6 @@ import supervision as sv
 from PIL import Image
 from ultralytics import YOLO
 
-# --- OpenCV import guard (biar errornya jelas) ---
 try:
     import cv2
 except Exception as e:
@@ -29,17 +28,16 @@ import requests
 # =========================
 
 
-MODEL_URL = os.getenv("MODEL_URL", "").strip()
-# MODEL_GDRIVE_ID = os.getenv("MODEL_GDRIVE_ID", "").strip()
-MODEL_GDRIVE_ID = "1Hq-Vlz5R1jWTs6OH1wtHnc8TVkkykn-L"
+MODEL_URL = st.secrets.get("MODEL_URL", "")
+MODEL_GDRIVE_ID = st.secrets.get("MODEL_GDRIVE_ID", "")
 if not MODEL_GDRIVE_ID:
-    # kalau user hanya isi URL, ambil file_id dari URL
     if not MODEL_URL:
-        raise RuntimeError("MODEL_URL atau MODEL_GDRIVE_ID belum di-set. Isi di .env atau Streamlit Secrets.")
+        raise RuntimeError("MODEL_URL atau MODEL_GDRIVE_ID belum di-set. Isi di Streamlit Secrets.")
     MODEL_GDRIVE_ID = extract_gdrive_file_id(MODEL_URL)
-
-if not MODEL_GDRIVE_ID:
-    raise RuntimeError("Gagal mengambil Google Drive file_id. Pastikan MODEL_URL valid.")
+    if not MODEL_GDRIVE_ID:
+        raise RuntimeError("Gagal mengambil Google Drive file_id. Pastikan MODEL_URL valid.")
+    
+    
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 MODELS_DIR = PROJECT_ROOT / "models"
 MODEL_PATH = MODELS_DIR / "best.pt"
