@@ -5,7 +5,7 @@ from collections import Counter
 from datetime import datetime
 from io import BytesIO
 from pathlib import Path
-from dotenv import load_dotenv
+
 import numpy as np
 import pandas as pd
 import plotly.express as px
@@ -27,7 +27,7 @@ import requests
 # =========================
 # Google Drive Model Config
 # =========================
-load_dotenv()  # baca .env kalau ada (lokal)
+
 
 MODEL_URL = os.getenv("MODEL_URL", "").strip()
 MODEL_GDRIVE_ID = os.getenv("MODEL_GDRIVE_ID", "").strip()
