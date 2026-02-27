@@ -26,25 +26,6 @@ import requests
 # =========================
 # Google Drive Model Config
 # =========================
-
-
-MODEL_URL = st.secrets.get("MODEL_URL", "")
-MODEL_GDRIVE_ID = st.secrets.get("MODEL_GDRIVE_ID", "")
-if not MODEL_GDRIVE_ID:
-    if not MODEL_URL:
-        raise RuntimeError("MODEL_URL atau MODEL_GDRIVE_ID belum di-set. Isi di Streamlit Secrets.")
-    MODEL_GDRIVE_ID = extract_gdrive_file_id(MODEL_URL)
-    if not MODEL_GDRIVE_ID:
-        raise RuntimeError("Gagal mengambil Google Drive file_id. Pastikan MODEL_URL valid.")
-    
-    
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-MODELS_DIR = PROJECT_ROOT / "models"
-MODEL_PATH = MODELS_DIR / "best.pt"
-
-VEHICLE_CLASSES = ["bus", "car", "van"]
-
-
 def extract_gdrive_file_id(url: str) -> str | None:
     """
     Support:
@@ -62,6 +43,22 @@ def extract_gdrive_file_id(url: str) -> str | None:
         if m:
             return m.group(1)
     return None
+
+MODEL_URL = st.secrets.get("MODEL_URL", "")
+MODEL_GDRIVE_ID = st.secrets.get("MODEL_GDRIVE_ID", "")
+if not MODEL_GDRIVE_ID:
+    if not MODEL_URL:
+        raise RuntimeError("MODEL_URL atau MODEL_GDRIVE_ID belum di-set. Isi di Streamlit Secrets.")
+    MODEL_GDRIVE_ID = extract_gdrive_file_id(MODEL_URL)
+    if not MODEL_GDRIVE_ID:
+        raise RuntimeError("Gagal mengambil Google Drive file_id. Pastikan MODEL_URL valid.")
+    
+    
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+MODELS_DIR = PROJECT_ROOT / "models"
+MODEL_PATH = MODELS_DIR / "best.pt"
+
+VEHICLE_CLASSES = ["bus", "car", "van"]
 
 
 def download_gdrive_file(file_id: str, destination: Path, chunk_size: int = 32768) -> None:
