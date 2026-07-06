@@ -4,6 +4,8 @@
 > Smart Traffic Vehicle Detection & Density Analysis\
 > Powered by YOLOv12 + Streamlit + Supervision
 
+![Vehicle Detection YOLOv12](assets/yolo.png)
+
 * * * * *
 
 📌 Overview
